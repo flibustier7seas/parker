@@ -19,7 +19,7 @@ namespace GitLab.Parker.Logic
             {
                 new KeyboardButton[]
                 {
-                    "/freeAll"
+                    "/free all"
                 }
             };
 
