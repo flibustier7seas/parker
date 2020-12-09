@@ -8,14 +8,7 @@
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": false,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
-      }
-    },
-    "Telegram.Bot.Examples.DotNetCoreWebHook": {
+    "Telegram.Bot": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

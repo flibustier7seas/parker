@@ -1,18 +1,41 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace GitLab.Parker.Logic
 {
-    public static class Keyboards
+    internal static class Keyboards
     {
-        public static readonly ReplyKeyboardMarkup KeyboardMarkup = new ReplyKeyboardMarkup
+        public static ReplyKeyboardMarkup CreateKeyboard(IEnumerable<string> envs)
         {
-            Keyboard = new[]
+            var buttons = envs.Select(x =>
+                new KeyboardButton[]
+                {
+                    $"/take {x}",
+                    $"/free {x}",
+                });
+
+            var freeAll = new[]
+            {
+                new KeyboardButton[]
+                {
+                    "/freeAll"
+                }
+            };
+
+            var list = new[]
             {
                 new KeyboardButton[]
                 {
                     "/list"
                 }
-            }
-        };
+            };
+
+            return new ReplyKeyboardMarkup
+            {
+                ResizeKeyboard = true,
+                Keyboard = list.Concat(buttons).Concat(freeAll).ToArray()
+            };
+        }
     }
 }

@@ -2,6 +2,11 @@
 {
     public enum ErrorType
     {
-        IncorrectData
+        EnvironmentExistsAlready,
+        EnvironmentDoesNotExist,
+        EnvironmentTaken,
+        EnvironmentTakenBySelf,
+        EnvironmentProhibited,
+        Forbidden
     }
 }

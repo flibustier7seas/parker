@@ -2,7 +2,6 @@ using GitLab.Parker.Abstractions;
 using GitLab.Parker.BotCommands;
 using GitLab.Parker.Configuration;
 using GitLab.Parker.Logic;
-using GitLabApiClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +23,8 @@ namespace GitLab.Parker
             var credentials = Configuration.GetSection("Credentials");
             services.Configure<Credentials>(credentials);
             services.Configure<GitLabOptions>(Configuration.GetSection("GitLab"));
+            services.Configure<EnvironmentsOptions>(Configuration.GetSection("Environments"));
+            services.Configure<EnvironmentsData>(Configuration);
 
             services.AddMvc();
 
@@ -32,13 +33,16 @@ namespace GitLab.Parker
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IBotCommand, StartCommand>();
-
-            services.AddSingleton<IGitLabClient>(x => new GitLabClient(
-                "https://git.skbkontur.ru/",
-                credentials["GitLabToken"]));
+            services.AddSingleton<IBotCommand, TakeCommand>();
+            services.AddSingleton<IBotCommand, FreeCommand>();
+            services.AddSingleton<IBotCommand, ListCommand>();
+            services.AddSingleton<IBotCommand, AddCommand>();
 
             services.AddScoped<IBotUpdateHandler, BotUpdateHandler>();
             services.AddSingleton<IBotService, BotService>();
+            services.AddSingleton<IEnvironmentStorage, EnvironmentStorage>();
+
+            services.AddHostedService<PollingService>();
 
             services
                 .AddControllers()
